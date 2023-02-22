@@ -204,3 +204,77 @@ class Program
 
 
 git credential-manager get
+
+
+Open Visual Studio 2022 and create a new C# Console Application project.
+
+In the Solution Explorer, right-click the project and select "Add" -> "New Item".
+
+In the "Add New Item" dialog box, select "Code Snippet" from the "Visual C#" section and name the snippet "BasicClass".
+
+Click "Add" to create the new snippet file.
+
+Replace the default code in the new snippet file with the following code:
+
+<CodeSnippet Format="1.0.0">
+  <Header>
+    <Title>Employee Class</Title>
+    <Shortcut>employee</Shortcut>
+    <Description>Creates a new Employee class with properties and methods.</Description>
+    <Author>Your Name</Author>
+    <SnippetTypes>
+      <SnippetType>Expansion</SnippetType>
+    </SnippetTypes>
+  </Header>
+  <Snippet>
+    <Declarations>
+      <Literal>
+        <ID>name</ID>
+        <ToolTip>The name of the employee.</ToolTip>
+        <Default>John Doe</Default>
+      </Literal>
+      <Literal>
+        <ID>id</ID>
+        <ToolTip>The ID of the employee.</ToolTip>
+        <Default>12345</Default>
+      </Literal>
+      <Literal>
+        <ID>salary</ID>
+        <ToolTip>The salary of the employee.</ToolTip>
+        <Default>50000</Default>
+      </Literal>
+    </Declarations>
+    <Code Language="csharp">
+      <![CDATA[
+public class Employee
+{
+    public string Name { get; set; } = "$name$";
+    public int ID { get; set; } = $id$;
+    public decimal Salary { get; set; } = $salary$;
+
+    public void Work()
+    {
+        Console.WriteLine("Employee is working...");
+    }
+
+    public void TakeBreak()
+    {
+        Console.WriteLine("Employee is taking a break...");
+    }
+}
+]]>
+    </Code>
+  </Snippet>
+</CodeSnippet>
+
+
+To use the code snippet in a Visual Studio class file, you can follow these steps:
+
+Open a new or existing class file in Visual Studio.
+Position the cursor where you want to insert the code snippet.
+Type the shortcut for the code snippet (in this case, "empsnippet").
+Press the "Tab" key twice to expand the snippet.
+Replace the placeholders with your own values or code as needed.
+Press "Enter" to finish inserting the code snippet.
+After completing these steps, the code snippet will be inserted into your class file. You can modify it as needed for your specific use case.
+
