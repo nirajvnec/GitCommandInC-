@@ -1,3 +1,16 @@
+using LibGit2Sharp;
+
+// specify the URL of the repository you want to clone
+var repoUrl = "https://github.com/exampleuser/example-repo.git";
+
+// specify the local directory where you want to clone the repository
+var localPath = @"C:\example\repo";
+
+// clone the repository
+Repository.Clone(repoUrl, localPath);
+
+
+
 # GitCommandInC-
 
 
