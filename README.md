@@ -163,3 +163,44 @@ public static class GitFunctions
 
         Console.WriteLine("Build of ALL.sln complete.");
     }
+
+
+
+
+
+using System;
+using LibGit2Sharp;
+using Microsoft.Alm.Authentication;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        string repositoryPath = "C:\\path\\to\\repository";
+        string remoteUrl = "https://github.com/username/repository.git";
+        
+        // Initialize Git repository
+        using (var repo = new Repository(repositoryPath))
+        {
+            // Get the GCM instance
+            var credentialManager = new GnomeKeyring("git");
+
+            // Get credentials for the remote URL
+            var credentials = credentialManager.GetCredentials(new TargetUri(remoteUrl));
+
+            // Set the credentials for the repository
+            var options = new FetchOptions();
+            options.CredentialsProvider = (_url, _user, _cred) => new UsernamePasswordCredentials
+            {
+                Username = credentials.Username,
+                Password = credentials.Password
+            };
+
+            // Fetch the changes using the credentials
+            repo.Network.Fetch(remoteUrl, options);
+        }
+    }
+}
+
+
+git credential-manager get
