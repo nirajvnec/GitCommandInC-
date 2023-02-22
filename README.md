@@ -1,3 +1,48 @@
+
+using LibGit2Sharp;
+
+// specify the URL of the repository you want to clone
+var repoUrl = "https://github.com/exampleuser/example-repo.git";
+
+// specify the local directory where you want to clone the repository
+var localPath = @"C:\example\repo";
+
+// specify the branch to checkout
+var branchName = "develop";
+
+// specify the credentials to use for authentication
+var username = "myusername";
+var password = "mypassword";
+
+// clone the repository with additional options
+var cloneOptions = new CloneOptions
+{
+    Checkout = branchName,
+    CredentialsProvider = (_url, _user, _cred) => new UsernamePasswordCredentials
+    {
+        Username = username,
+        Password = password
+    }
+};
+Repository.Clone(repoUrl, localPath, cloneOptions);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 using LibGit2Sharp;
 
 // specify the URL of the repository you want to clone
