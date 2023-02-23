@@ -1,3 +1,24 @@
+using System.IO;
+
+string searchPattern = "*.pfx";
+
+DriveInfo[] allDrives = DriveInfo.GetDrives();
+foreach (DriveInfo drive in allDrives)
+{
+    if (drive.IsReady)
+    {
+        string[] files = Directory.GetFiles(drive.RootDirectory.FullName, searchPattern, SearchOption.AllDirectories);
+        foreach (string file in files)
+        {
+            Console.WriteLine(file);
+        }
+    }
+}
+
+
+
+
+
 
 using LibGit2Sharp;
 
