@@ -1,3 +1,17 @@
+using System;
+using System.IO;
+using System.Threading.Tasks;
+
+string directoryPath = @"M:\";
+string searchPattern = "*.pfx";
+
+Parallel.ForEach(Directory.GetFiles(directoryPath, searchPattern, SearchOption.AllDirectories), (filePath) =>
+{
+    Console.WriteLine(filePath);
+});
+
+
+
 using System.IO;
 
 string drivePath = @"M:\";
