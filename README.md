@@ -1,5 +1,20 @@
 using System.IO;
 
+string drivePath = @"M:\";
+string searchPattern = "*.pfx";
+
+string[] files = Directory.GetFiles(drivePath, searchPattern, SearchOption.AllDirectories);
+
+foreach (string file in files)
+{
+    Console.WriteLine(file);
+}
+
+
+
+
+using System.IO;
+
 string searchPattern = "*.pfx";
 
 DriveInfo[] allDrives = DriveInfo.GetDrives();
