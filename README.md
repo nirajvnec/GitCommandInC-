@@ -1,3 +1,33 @@
+using System;
+using System.IO;
+using System.Linq;
+using NuGet.VisualStudio;
+
+// Get the current solution directory
+string solutionDirectory = Path.GetDirectoryName(_dte.Solution.FullName);
+
+// Get the package restore manager for the solution
+IPackageRestoreManager packageRestoreManager = ServiceLocator.GetInstance<IPackageRestoreManager>();
+if (packageRestoreManager == null)
+{
+    throw new InvalidOperationException("Package restore manager not found.");
+}
+
+// Check if package restore is required
+if (packageRestoreManager.IsCurrentSolutionRestoreRequired())
+{
+    // Restore packages for the solution
+    packageRestoreManager.RestoreMissingPackages(solutionDirectory, packageRestoreManager.GetPackagesConfigPaths(solutionDirectory).First());
+
+    // Refresh the solution explorer window to show the restored packages
+    _dte.Windows.Item(Constants.vsWindowKindSolutionExplorer).Activate();
+    _dte.ActiveWindow.Object.GetItem("").Select(vsUISelectionType.vsUISelectionTypeSelect);
+    _dte.Commands.Raise("{1496A755-94DE-11D0-8C3F-00C04FC2AAE2}", 222, null, null);
+}
+
+
+
+
 using Microsoft.Build.Evaluation;
 
 // Load the project file
