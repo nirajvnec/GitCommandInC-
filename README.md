@@ -1,3 +1,22 @@
+using Microsoft.Build.Evaluation;
+
+// Load the project file
+Project project = new Project(@"M:\udm1\frtbmodels\MARSfrtbmodels\FRTBSA.DRCMarsModel\MARSfrtbmodels\FRTBSA.DRCMarsModel.csproj");
+
+// Set the "Start External Program" property
+project.SetProperty("StartExternalProgram", @"M:\udm1\marsfrtb\UDMcontainer\ModelTestRunner\bin\ModelTestRunner.exe");
+
+// Set the "Command Line Arguments" property
+project.SetProperty("StartArguments", @"M:\udm1\frtbmodels\MARSfrtbmodels.TestCases\FX_DELTA_ENRICH M:\udm1\frtbmodels\MARSfrtbmodels.TestCases\FX_DELTA_ENRICH M:\udm1\frtbmodels\MARSfrtbmodels\FRTBSA.DRCMarsModel\bin --PREFERLOCALANDUPDATECSV: M:\udm1\frtbmodels\MARSfrtbmodels.TestCases\FX_DELTA_ENRICH --LOGMODE:trace");
+
+// Save the changes
+project.Save();
+
+
+
+
+
+
 using System;
 using System.IO;
 using System.Threading.Tasks;
