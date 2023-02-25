@@ -1,23 +1,21 @@
-public static class DataRowExtensions
+public static bool FieldMatches<T>(this DataRow row, string fieldName, T value)
 {
-    public static bool FieldMatches<T>(this DataRow row, string fieldName, T value)
+    // Check if the value is null or empty
+    if (value == null || (value is string && string.IsNullOrEmpty((string)(object)value)))
     {
-        // Check if the value is null or empty
-        if (value == null || (value is string && string.IsNullOrEmpty((string)(object)value)))
-        {
-            return true; // Match all values when the filter value is null or empty
-        }
+        return true; // Match all values when the filter value is null or empty
+    }
 
-        // Compare the field value to the filter value
-        object fieldValue = row[fieldName];
-        if (fieldValue == null || fieldValue == DBNull.Value)
-        {
-            return false; // Not a match if the field value is null or DBNull.Value
-        }
-        else
-        {
-            return (T)Convert.ChangeType(fieldValue, typeof(T))?.Equals(value) ?? false;
-        }
+    // Compare the field value to the filter value
+    object fieldValue = row[fieldName];
+    if (fieldValue == null || fieldValue == DBNull.Value)
+    {
+        return false; // Not a match if the field value is null or DBNull.Value
+    }
+    else
+    {
+        T typedValue = (T)Convert.ChangeType(fieldValue, typeof(T));
+        return typedValue != null && typedValue.Equals(value);
     }
 }
 
