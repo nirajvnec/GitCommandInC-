@@ -1,16 +1,17 @@
-public static T GetValueOrDefault<T>(this DataRow row, string columnName)
+public static T GetValueOrThrowException<T>(this T value, string paramName = null)
 {
-    object value = row[columnName];
-    if (value == null || value == DBNull.Value || (typeof(T) == typeof(string) && string.IsNullOrEmpty((string)value)))
+    if (string.IsNullOrEmpty(Convert.ToString(value)))
     {
-        throw new NoRecordsReturnedException(string.Format("No records returned for column '{0}'.", columnName));
-    }
-    else
-    {
-        return row.Field<T>(columnName);
-    }
-}
+        if (string.IsNullOrEmpty(paramName))
+        {
+            paramName = typeof(T).Name;
+        }
 
+        throw new ArgumentException($"{paramName} is null or empty.");
+    }
+
+    return value;
+}
 
 
 public static bool FieldMatches<T>(this DataRow row, string fieldName, T value)
