@@ -1,3 +1,11 @@
+public static bool IsNullOrEmpty<T>(this DataRow row, string fieldName)
+{
+    object value = row[fieldName];
+    return (value == null || value == DBNull.Value || (typeof(T) == typeof(string) && string.IsNullOrEmpty((string)value)));
+}
+
+
+
 public static bool FieldMatches<T>(this DataRow row, string fieldName, T value)
 {
     // Check if the value is null or empty
