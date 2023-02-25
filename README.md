@@ -1,7 +1,14 @@
-public static bool IsNullOrEmpty<T>(this DataRow row, string fieldName)
+public static T GetValueOrDefault<T>(this DataRow row, string columnName)
 {
-    object value = row[fieldName];
-    return (value == null || value == DBNull.Value || (typeof(T) == typeof(string) && string.IsNullOrEmpty((string)value)));
+    object value = row[columnName];
+    if (value == null || value == DBNull.Value || (typeof(T) == typeof(string) && string.IsNullOrEmpty((string)value)))
+    {
+        throw new NoRecordsReturnedException(string.Format("No records returned for column '{0}'.", columnName));
+    }
+    else
+    {
+        return row.Field<T>(columnName);
+    }
 }
 
 
