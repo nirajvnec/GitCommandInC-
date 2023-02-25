@@ -1,4 +1,34 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
+
+class Program
+{
+    static Dictionary<string, string> CsvToDictionary(string filename)
+    {
+        Dictionary<string, string> dictionary = new Dictionary<string, string>();
+
+        using (StreamReader reader = new StreamReader(filename))
+        {
+            while (!reader.EndOfStream)
+            {
+                string line = reader.ReadLine();
+                string[] values = line.Split(',');
+
+                string key = values[0];
+                string value = values[1];
+
+                dictionary.Add(key, value);
+            }
+        }
+
+        return dictionary;
+    }
+}
+
+
+
+using System;
 using System.IO;
 using System.Linq;
 using NuGet.VisualStudio;
