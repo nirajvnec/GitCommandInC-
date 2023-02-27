@@ -1,3 +1,29 @@
+var list = new List<string> { "apple", "banana", "cherry", "apple" };
+
+// Create a dictionary with a case-insensitive string comparer to prevent duplicates
+var dictionary = list.ToDictionary(x => x, StringComparer.OrdinalIgnoreCase);
+
+// Or, create a dictionary with a custom equality comparer
+var dictionary2 = list.ToDictionary(x => x, new CustomEqualityComparer());
+
+// Custom equality comparer class
+public class CustomEqualityComparer : IEqualityComparer<string>
+{
+    public bool Equals(string x, string y)
+    {
+        return x.ToLower() == y.ToLower();
+    }
+
+    public int GetHashCode(string obj)
+    {
+        return obj.ToLower().GetHashCode();
+    }
+}
+
+
+
+
+
 public static T GetValueOrThrowException<T>(this T value, string paramName = null)
 {
     if (string.IsNullOrEmpty(Convert.ToString(value)))
