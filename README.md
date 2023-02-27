@@ -1,3 +1,35 @@
+public static T TryCatch<T>(Func<T> func, out Exception exception)
+{
+    try
+    {
+        T result = func();
+        exception = null;
+        return result;
+    }
+    catch (Exception ex)
+    {
+        exception = ex;
+        throw;
+    }
+}
+
+    
+public static void TryCatch(Action action, out Exception exception)
+{
+    try
+    {
+        action();
+        exception = null;
+    }
+    catch (Exception ex)
+    {
+        exception = ex;
+    }
+}
+   
+    
+
+
 var list = new List<string> { "apple", "banana", "cherry", "apple" };
 
 // Create a dictionary with a case-insensitive string comparer to prevent duplicates
