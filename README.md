@@ -1,3 +1,59 @@
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.IO;
+
+// Define a class to represent your JSON object
+public class Person
+{
+    public string Name { get; set; }
+    public int Age { get; set; }
+    public string Address { get; set; }
+    public List<string> Interests { get; set; }
+    public List<string> Skills { get; set; }
+    public Dictionary<string, string> OtherInfo { get; set; }
+}
+
+// Deserialize the JSON into a collection of Person objects
+string json = "[{\"Name\":\"John\",\"Age\":25,\"Address\":\"123 Main Street\",\"Interests\":[\"Sports\",\"Music\"],\"Skills\":[\"Programming\",\"Writing\"],\"OtherInfo\":{\"Height\":\"5'10\\\"\",\"Weight\":\"175 lbs\"}}]";
+List<Person> people = JsonConvert.DeserializeObject<List<Person>>(json);
+
+// Write the data to a pipe delimited CSV file
+using (StreamWriter writer = new StreamWriter("output.csv"))
+{
+    // Write the header row
+    writer.WriteLine("Name|Age|Address|Interests|Skills|Height|Weight");
+
+    // Write each person's data to a new line in the file
+    foreach (Person person in people)
+    {
+        string interests = string.Join(",", person.Interests);
+        string skills = string.Join(",", person.Skills);
+
+        // Loop through the OtherInfo dictionary and write each key-value pair as a separate column
+        string otherInfo = "";
+        foreach (KeyValuePair<string, string> kvp in person.OtherInfo)
+        {
+            otherInfo += $"{kvp.Value}|";
+        }
+        otherInfo = otherInfo.TrimEnd('|');
+
+        writer.WriteLine($"{person.Name}|{person.Age}|{person.Address}|{interests}|{skills}|{otherInfo}");
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 public static T TryCatch<T>(Func<T> func, out Exception exception)
 {
     try
