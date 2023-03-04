@@ -1,3 +1,23 @@
+using (var reader = new StreamReader("path/to/csv/file.csv"))
+using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+{
+    csv.Read();
+    csv.ReadHeader();
+    
+    var ages = new List<int>();
+    
+    while (csv.Read())
+    {
+        var age = csv.GetField<int>("Age");
+        ages.Add(age);
+    }
+    
+    // Do something with the list of ages
+}
+
+
+
+
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
