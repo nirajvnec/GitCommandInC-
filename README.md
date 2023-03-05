@@ -1,3 +1,34 @@
+using System.Collections.Generic;
+using System.IO;
+using CsvHelper;
+
+string filePath = @"C:\path\to\file.csv"; // replace with your CSV file path
+string searchColumnName = "search_column_name"; // replace with the name of the column to search on
+string searchColumnValue = "search_column_value"; // replace with the value to search for
+List<string[]> matchingRows = new List<string[]>(); // create a list to store the matching rows
+
+using (var reader = new StreamReader(filePath))
+using (var csv = new CsvReader(reader))
+{
+    var records = csv.GetRecords<dynamic>();
+    foreach (var record in records)
+    {
+        var dict = (IDictionary<string, object>)record;
+        if (dict[searchColumnName].ToString() == searchColumnValue)
+        {
+            string[] rowFields = dict.Values.Select(x => x.ToString()).ToArray();
+            matchingRows.Add(rowFields);
+        }
+    }
+}
+
+
+
+
+
+
+
+
 using System.IO;
 using CsvHelper;
 
