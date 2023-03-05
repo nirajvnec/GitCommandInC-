@@ -1,6 +1,44 @@
 using System.Collections.Generic;
 using System.IO;
 using CsvHelper;
+using CsvHelper.Configuration;
+
+string filePath = @"C:\path\to\file.csv"; // replace with your CSV file path
+string searchColumnName = "search_column_name"; // replace with the name of the column to search on
+string searchColumnValue = "search_column_value"; // replace with the value to search for
+List<string[]> matchingRows = new List<string[]>(); // create a list to store the matching rows
+
+using (var reader = new StreamReader(filePath))
+using (var csv = new CsvParser(reader, new CsvConfiguration { HasHeaderRecord = true }))
+{
+    // Read the header row to get the column names
+    csv.Read();
+    string[] headerRow = csv.Record;
+
+    // Find the index of the search column
+    int searchColumnIndex = Array.IndexOf(headerRow, searchColumnName);
+
+    // Iterate over each row and add matching rows to the list
+    while (csv.Read())
+    {
+        if (csv[searchColumnIndex] == searchColumnValue)
+        {
+            string[] rowFields = new string[csv.Record.Length];
+            for (int i = 0; i < csv.Record.Length; i++)
+            {
+                rowFields[i] = csv[i];
+            }
+            matchingRows.Add(rowFields);
+        }
+    }
+}
+
+
+
+
+using System.Collections.Generic;
+using System.IO;
+using CsvHelper;
 
 string filePath = @"C:\path\to\file.csv"; // replace with your CSV file path
 string searchColumnName = "search_column_name"; // replace with the name of the column to search on
