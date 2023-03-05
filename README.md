@@ -1,3 +1,34 @@
+using System.IO;
+using CsvHelper;
+
+string folderPath = @"C:\path\to\folder"; // replace with your folder path
+string commonColumnName = "common_column_name"; // replace with the name of the common column
+List<string> commonColumnValues = new List<string>(); // create an empty list to store the common column values
+
+var csvFiles = Directory.GetFiles(folderPath, "*.csv", SearchOption.AllDirectories);
+
+foreach (string csvFile in csvFiles)
+{
+    using (var reader = new StreamReader(csvFile))
+    using (var csv = new CsvReader(reader))
+    {
+        // read only the common column
+        csv.Read();
+        csv.ReadHeader();
+        string commonColumnValue = csv.GetField(commonColumnName);
+        commonColumnValues.Add(commonColumnValue); // add the common column value to the list
+    }
+}
+
+
+
+
+
+
+
+
+
+
 using (var reader = new StreamReader("path/to/csv/file.csv"))
 using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
 {
