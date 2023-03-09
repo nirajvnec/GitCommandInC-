@@ -1,3 +1,32 @@
+string dateString = "09-Mar-2023"; // example date string in dd-MMM-yyyy format
+DateTime parsedDate;
+
+// list of possible date formats
+List<string> formats = new List<string> {
+    "yyyyMMdd",
+    "dd-MM-yy",
+    "dd-MM-yyyy",
+    "dd-MMM-yyyy" // added dd-MMM-yyyy format
+    // add more formats as needed
+};
+
+// try to parse the date using each format
+foreach (string format in formats)
+{
+    if (DateTime.TryParseExact(dateString, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out parsedDate))
+    {
+        // the date was successfully parsed
+        Console.WriteLine("Parsed date: " + parsedDate.ToString("yyyy-MM-dd"));
+        break;
+    }
+}
+
+
+
+
+
+
+
 using CsvHelper;
 using System.Collections.Generic;
 using System.IO;
