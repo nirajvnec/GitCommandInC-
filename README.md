@@ -1,3 +1,44 @@
+using CsvHelper;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+
+// Define a class to represent the data in your CSV file
+public class MyData
+{
+    public string Column1 { get; set; }
+    public string Column2 { get; set; }
+    // add more columns if needed
+}
+
+// Load the first CSV file into memory
+using (var reader1 = new StreamReader("path/to/first/file.csv"))
+using (var csv1 = new CsvReader(reader1))
+{
+    var records1 = csv1.GetRecords<MyData>().ToList();
+
+    // Load the second CSV file into memory
+    using (var reader2 = new StreamReader("path/to/second/file.csv"))
+    using (var csv2 = new CsvReader(reader2))
+    {
+        var records2 = csv2.GetRecords<MyData>().ToList();
+
+        // Find the missing rows from the first CSV file in the second CSV file
+        var missingRows = records1.Where(x => !records2.Any(y => x.Column1 == y.Column1 && x.Column2 == y.Column2 /* add more columns if needed */));
+
+        // Print the missing rows to the console
+        foreach (var row in missingRows)
+        {
+            Console.WriteLine($"Missing row: {row.Column1}, {row.Column2} /* add more columns if needed */");
+        }
+    }
+}
+
+    
+    
+
+
+
 
 using CsvHelper;
 using System.Collections.Generic;
