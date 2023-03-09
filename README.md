@@ -1,3 +1,90 @@
+
+using CsvHelper;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+
+// Define a class to represent the data in your CSV file
+public class MyData
+{
+    public string Column1 { get; set; }
+    public string Column2 { get; set; }
+    // add more properties as needed
+}
+
+// Load the CSV file into memory and get the column headers
+using (var reader = new StreamReader("path/to/file.csv"))
+using (var csv = new CsvReader(reader))
+{
+    csv.Read();
+    csv.ReadHeader();
+    var headers = csv.HeaderRecord;
+
+    // Dynamically create a new class with properties that match the column headers
+    var assemblyName = new AssemblyName("MyDynamicAssembly");
+    var assemblyBuilder = AssemblyBuilder.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run);
+    var moduleBuilder = assemblyBuilder.DefineDynamicModule("MyDynamicModule");
+    var typeBuilder = moduleBuilder.DefineType("MyDynamicClass", TypeAttributes.Public);
+
+    foreach (var header in headers)
+    {
+        var propertyBuilder = typeBuilder.DefineProperty(header, PropertyAttributes.None, typeof(string), null);
+        var fieldBuilder = typeBuilder.DefineField("_" + header, typeof(string), FieldAttributes.Private);
+        var getterBuilder = typeBuilder.DefineMethod("get_" + header, MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig, typeof(string), Type.EmptyTypes);
+        var getterIl = getterBuilder.GetILGenerator();
+        getterIl.Emit(OpCodes.Ldarg_0);
+        getterIl.Emit(OpCodes.Ldfld, fieldBuilder);
+        getterIl.Emit(OpCodes.Ret);
+        var setterBuilder = typeBuilder.DefineMethod("set_" + header, MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig, null, new[] { typeof(string) });
+        var setterIl = setterBuilder.GetILGenerator();
+        setterIl.Emit(OpCodes.Ldarg_0);
+        setterIl.Emit(OpCodes.Ldarg_1);
+        setterIl.Emit(OpCodes.Stfld, fieldBuilder);
+        setterIl.Emit(OpCodes.Ret);
+        propertyBuilder.SetGetMethod(getterBuilder);
+        propertyBuilder.SetSetMethod(setterBuilder);
+    }
+
+    var myType = typeBuilder.CreateType();
+
+    // Read the data rows from the CSV file and populate the dynamically created class
+    var records = csv.GetRecords(myType).ToList();
+
+    // Do something with the records, such as saving them to a database or processing them further
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 using System.Collections.Generic;
 using System.IO;
 using CsvHelper;
