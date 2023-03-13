@@ -1,3 +1,18 @@
+public static T NVL<T>(this T value, T defaultValue)
+{
+    if (value == null || (typeof(T) == typeof(string) && string.IsNullOrEmpty(value.ToString())))
+    {
+        return defaultValue;
+    }
+    else
+    {
+        return value;
+    }
+}
+
+
+
+
 
 using System;
 using System.Collections.Generic;
