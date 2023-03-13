@@ -1,3 +1,13 @@
+public static class DateHelper
+{
+    public static DateTime Max(DateTime date1, DateTime date2)
+    {
+        return DateTime.Compare(date1, date2) < 0 ? date2 : date1;
+    }
+}
+
+
+
 public static T NVL<T>(this T value, T defaultValue)
 {
     if (value == null || (typeof(T) == typeof(string) && string.IsNullOrEmpty(value.ToString())))
