@@ -1,3 +1,9 @@
+public static string ToShortDateStringWithCustomFormat(this DateTime dateTime)
+{
+    return dateTime.ToString("MM/dd/yyyy");
+}
+
+
 public static class DateHelper
 {
     public static DateTime Max(DateTime date1, DateTime date2)
